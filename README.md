@@ -39,3 +39,7 @@ python scripts/hpo.py
 python scripts/train.py
 
 python scripts/register_model.py
+
+python scripts/predict.py
+
+Notice that only after running the last script we will have deployed flask and therefore, we can only perform the integration tests after running it.
