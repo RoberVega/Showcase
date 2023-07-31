@@ -1,0 +1,28 @@
+artifact_path: model
+flavors:
+  python_function:
+    data: model.xgb
+    env: conda.yaml
+    loader_module: mlflow.xgboost
+    python_version: 3.10.6
+  xgboost:
+    code: null
+    data: model.xgb
+    model_class: xgboost.sklearn.XGBRFClassifier
+    xgb_version: 1.6.2
+mlflow_version: 1.30.1
+model_uuid: cdce8161c6cb4fa08349bd034c56cfb0
+run_id: 98e8199e0e354a18bb4e0d569eaef0fc
+signature:
+  inputs: '[{"name": "General_Health", "type": "double"}, {"name": "Checkup", "type":
+    "double"}, {"name": "Age_Category", "type": "double"}, {"name": "Height_(cm)",
+    "type": "double"}, {"name": "Weight_(kg)", "type": "double"}, {"name": "BMI",
+    "type": "double"}, {"name": "Alcohol_Consumption", "type": "double"}, {"name":
+    "Fruit_Consumption", "type": "double"}, {"name": "Green_Vegetables_Consumption",
+    "type": "double"}, {"name": "FriedPotato_Consumption", "type": "double"}, {"name":
+    "Exercise", "type": "double"}, {"name": "Skin_Cancer", "type": "double"}, {"name":
+    "Other_Cancer", "type": "double"}, {"name": "Depression", "type": "double"}, {"name":
+    "Diabetes", "type": "double"}, {"name": "Arthritis", "type": "double"}, {"name":
+    "Sex", "type": "double"}, {"name": "Smoking_History", "type": "double"}]'
+  outputs: '[{"type": "tensor", "tensor-spec": {"dtype": "int64", "shape": [-1]}}]'
+utc_time_created: '2023-07-28 17:10:04.878255'
