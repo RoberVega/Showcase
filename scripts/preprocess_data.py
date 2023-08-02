@@ -15,7 +15,7 @@ def dump_pickle(obj, filename: str)-> None:
         return pickle.dump(obj, f_out)
 
 
-#@task(retries=3, retry_delay_seconds=2)
+@task(name='Read the dataframe and prepare features',retries=3, retry_delay_seconds=2)
 def read_dataframe(filename: str):
     df = pd.read_csv(filename)
 
@@ -23,7 +23,7 @@ def read_dataframe(filename: str):
     
     return df
 
-#@task
+@task(name='Prepocess the data')
 def preprocess(X: pd.DataFrame, 
                ct: ColumnTransformer, 
                fit_ct: bool = False):
@@ -46,6 +46,7 @@ def preprocess(X: pd.DataFrame,
 
     return X, ct
 
+
 @click.command()
 @click.option(
     "--raw_data_path",
@@ -55,7 +56,7 @@ def preprocess(X: pd.DataFrame,
     "--dest_path",
     help="Location where the resulting files will be saved"
 )
-#@flow
+@flow(name='Run data preparation')
 def run_data_prep(raw_data_path: str, dest_path: str):
     # Load parquet files
     df_train = read_dataframe(

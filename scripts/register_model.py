@@ -1,8 +1,10 @@
 import click
 import mlflow
 from typing import Optional
+from prefect import flow
 from mlflow.entities import ViewType
 from mlflow.tracking import MlflowClient
+
 
 
 EXPERIMENT_NAME = "heart-disease-best-models"
@@ -19,6 +21,7 @@ mlflow.set_experiment(EXPERIMENT_NAME)
     type=int,
     help="Id of the model to register"
 )
+@flow(name='Register a model')
 def run_register_model(run_id: Optional[str]):
 
     client = MlflowClient()

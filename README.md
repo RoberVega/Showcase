@@ -32,6 +32,8 @@ Tip: In order to activate python extension with the selected pipenv environment,
 
 Whole model-building from the terminal:
 
+prefect server start
+
 python scripts/preprocess_data.py --raw_data_path=data/raw_data --dest_path=data/data
 
 python scripts/hpo.py

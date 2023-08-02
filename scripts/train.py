@@ -20,13 +20,13 @@ EXPERIMENT_NAME = "heart-disease-best-models"
 RF_INT_PARAMS = ['n_estimators','max_depth','n_jobs']
 RF_FLOAT_PARAMS = ['learning_rate','reg_alpha','reg_lambda']
 
-#@task
+@task(retries=2)
 def load_data(data_path: str):
     with open(data_path, "rb") as f_in:
         return pickle.load(f_in)
 
 
-#@task
+@task(name='Training, logging and saving a model')
 def train_and_log_model(data_path, params):
     X_train, y_train = load_data(os.path.join(data_path, "train.pkl"))
     X_val, y_val = load_data(os.path.join(data_path, "val.pkl"))
@@ -61,7 +61,7 @@ def train_and_log_model(data_path, params):
         mlflow.xgboost.log_model(rf, artifact_path="models_mlflow")
 
 
-#@flow
+
 @click.command()
 @click.option(
     "--data_path",
@@ -74,6 +74,7 @@ def train_and_log_model(data_path, params):
     type=int,
     help="Number of top models to save"
 )
+@flow(name='Getting the best models')
 def run_train_model(data_path: str, top_n: int):
 
     client = MlflowClient()

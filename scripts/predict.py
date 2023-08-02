@@ -5,31 +5,35 @@ from flask import Flask, request, jsonify
 from mlflow.tracking import MlflowClient
 from preprocess_data import preprocess
 from preprocess_utils.preprocess import prepare_features
+from prefect import task, flow
 
 
 ct = joblib.load("data/data/ct.pkl")
 
-
+@task(name='Loading the model from database')
 def load_model_from_registry(model_name, model_version):
     MLFLOW_TRACKING_URI = "sqlite:///mlflow.db"
 
     client = MlflowClient(tracking_uri=MLFLOW_TRACKING_URI)
     mlflow.set_tracking_uri(MLFLOW_TRACKING_URI)
-    #client.transition_model_version_stage(
-    #    name=model_name, 
-    #    version=model_version, 
-    #    stage="Production"
-    # )
-    # Load the model as a PyFunc model
+    client.transition_model_version_stage(
+        name=model_name, 
+        version=model_version, 
+        stage="Production"
+     )
+    
     model = mlflow.xgboost.load_model(f"models:/{model_name}/{model_version}")
 
     return model
 
+@task(name='Preparing the data')
 def prepare_patient(patient: pd.DataFrame):
     patient_prep = prepare_features(patient)
     patient_prep, _ = preprocess(patient_prep, ct, fit_ct=False)
     return patient_prep
 
+
+@flow(name='Predict the probability')
 def predict_probability(patient: pd.DataFrame):
     
     model = load_model_from_registry('heart-disease-xgbrf', 1)

@@ -5,6 +5,7 @@ import mlflow
 import optuna
 from optuna.samplers import TPESampler
 from xgboost import XGBRFClassifier
+from prefect import flow
 from sklearn.metrics import recall_score, precision_score, roc_auc_score
 
 mlflow.set_tracking_uri("sqlite:///mlflow.db")
@@ -27,6 +28,7 @@ def load_pickle(filename):
     default=10,
     help="The number of parameter evaluations for the optimizer to explore"
 )
+@flow(name='Optimize models')
 def run_optimization(data_path: str, num_trials: int):
 
     X_train, y_train = load_pickle(os.path.join(data_path, "train.pkl"))
