@@ -43,5 +43,9 @@ python scripts/train.py
 python scripts/register_model.py
 
 python scripts/predict.py
+Alternatively, for deployment purposes, run: gunicorn --bind=0.0.0.0:9696 predict:app
 
 Notice that only after running the last script we will have deployed flask and therefore, we can only perform the integration tests after running it.
+
+Things that one can consider doing differently:
+- Refactor the code in such a way that we save ct together with the xgboost model as a pipeline artifact.

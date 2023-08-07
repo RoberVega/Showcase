@@ -20,7 +20,7 @@ def load_model_from_registry(model_name, model_version):
         name=model_name, 
         version=model_version, 
         stage="Production"
-     )
+    )
     
     model = mlflow.xgboost.load_model(f"models:/{model_name}/{model_version}")
 

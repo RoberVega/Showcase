@@ -17,6 +17,7 @@ imblearn = "*"
 prefect = "*"
 optuna = "*"
 flask = "*"
+gunicorn = "*"
 
 [dev-packages]
 pylint = "*"
